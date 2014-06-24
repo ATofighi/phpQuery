@@ -1,3 +1,6 @@
+## see https://github.com/electrolinux/phpquery
+## I just needed upper version for formal stability requirements (bariew).
+
 ## phpQuery, one more fork!
 
 My intent is to have it easily integrated in differents projects, so available on packagist.
