@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Charset and document types test.
  *
@@ -9,16 +10,21 @@
  * - document fragments tests (with all 4 charset scenarios)
  *
  */
-class phpQuery {
+class phpQuery
+{
 	static $defaultDocumentID;
 	static $debug = 0;
 	static $documents = array();
 	static $defaultCharset = 'utf-8';
-	static function debug($text) {
-		if (self::$debug)
+
+	static function debug($text)
+	{
+		if (self::$debug) {
 			print var_dump($text);
+		}
 	}
 }
+
 require_once('../phpQuery/DOMDocumentWrapper.php');
 phpQuery::$debug = 2;
 

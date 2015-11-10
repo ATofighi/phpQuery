@@ -10,13 +10,14 @@ EOF;
 $result = phpQuery::newDocumentPHP(null, 'text/html;charset=utf-8')
 	->appendPHP('print $r')
 	->append('<a/>')
-		->find('a')
-			->attrPHP('href', 'print $array[\'key\']; if ("abc\'d\'") {};')
-		->end();
-if (trim($result->php()) == $expected)
+	->find('a')
+	->attrPHP('href', 'print $array[\'key\']; if ("abc\'d\'") {};')
+	->end();
+if (trim($result->php()) == $expected) {
 	print "Test '{$testName}' passed :)";
-else
+} else {
 	print "Test '{$testName}' <strong>FAILED</strong> !!!";
+}
 print "\n";
 
 $testName = 'PHP file open';

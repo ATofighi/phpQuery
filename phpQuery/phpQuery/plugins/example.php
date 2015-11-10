@@ -20,7 +20,8 @@
  *
  * Class name prefix 'phpQueryObjectPlugin_' must be preserved.
  */
-abstract class phpQueryObjectPlugin_example {
+abstract class phpQueryObjectPlugin_example
+{
 	/**
 	 * Limit binded methods.
 	 *
@@ -30,12 +31,14 @@ abstract class phpQueryObjectPlugin_example {
 	 * @var array|null
 	 */
 	public static $phpQueryMethods = null;
+
 	/**
 	 * Enter description here...
 	 *
 	 * @param phpQueryObject $self
 	 */
-	public static function example($self, $arg1) {
+	public static function example($self, $arg1)
+	{
 		// this method can be called on any phpQuery object, like this:
 		// pq('div')->example('$arg1 Value')
 
@@ -44,7 +47,9 @@ abstract class phpQueryObjectPlugin_example {
 		// change stack of result object
 		return $self->find('div');
 	}
-	protected static function helperFunction() {
+
+	protected static function helperFunction()
+	{
 		// this method WONT be avaible as phpQuery method,
 		// because it isn't publicly callable
 	}
@@ -57,7 +62,8 @@ abstract class phpQueryObjectPlugin_example {
  *
  * Class name prefix 'phpQueryPlugin_' must be preserved.
  */
-abstract class phpQueryPlugin_example {
+abstract class phpQueryPlugin_example
+{
 	/**
 	 * Limit binded methods.
 	 *
@@ -67,9 +73,12 @@ abstract class phpQueryPlugin_example {
 	 * @var array|null
 	 */
 	public static $phpQueryMethods = null;
-	public static function staticMethod() {
+
+	public static function staticMethod()
+	{
 		// this method can be called within phpQuery class namespace, like this:
 		// phpQuery::$plugins->staticMethod()
 	}
 }
+
 ?>

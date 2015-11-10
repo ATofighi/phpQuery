@@ -20,7 +20,7 @@ $inputs = $doc['form > *'];
 // 	create_function('$node', 'return $node->getAttribute("name");')
 // );
 $results = array();
-foreach($inputs as $node) {
+foreach ($inputs as $node) {
 	$node = pq($node);
 	$name = $node->attr('name');
 	$results[$name] = false;
@@ -30,19 +30,18 @@ foreach($inputs as $node) {
 }
 $inputs
 	->not('select,:checkbox,:radio')
-		->val('new value')
+	->val('new value')
 	->end()
 	->filter('select')
-		->val('first')
+	->val('first')
 	->end()
 	->filter(':checkbox')
-		->val(array('foo'))
+	->val(array('foo'))
 	->end()
 	->filter(':radio')
-		->val(array('foo'))
-	->end()
-;
-foreach($results as $name => $result) {
+	->val(array('foo'))
+	->end();
+foreach ($results as $name => $result) {
 	print $result
 		? "Test for '$name' PASSED :)<br />\n"
 		: "Test for '$name' <strong>FAILED</strong> !!!<br />\n";

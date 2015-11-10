@@ -13,18 +13,20 @@ phpQuery::ajaxAllowHost(
 	'docs.google.com',
 	'reader.google.com'
 );
-if (! function_exists('ndfasui8923')) {
-	function ndfasui8923($browser, $scope) {
+if (!function_exists('ndfasui8923')) {
+	function ndfasui8923($browser, $scope)
+	{
 		extract($scope);
 		$browser
 			->WebBrowser()
 			->find('#Email')
-				->val($config['google_login'][0])->end()
+			->val($config['google_login'][0])->end()
 			->find('#Passwd')
-				->val($config['google_login'][1])
-				->parents('form')
-					->submit();
+			->val($config['google_login'][1])
+			->parents('form')
+			->submit();
 	}
+
 	$ndfasui8923 = new Callback('ndfasui8923', new CallbackParam, compact(
 		'config', 'self', 'return', 'params'
 	));

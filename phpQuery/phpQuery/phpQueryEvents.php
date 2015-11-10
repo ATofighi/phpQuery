@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Event handling class.
  *
@@ -6,7 +7,8 @@
  * @package phpQuery
  * @static
  */
-abstract class phpQueryEvents {
+abstract class phpQueryEvents
+{
 	/**
 	 * Trigger a type of event on every matched element.
 	 *
@@ -18,15 +20,17 @@ abstract class phpQueryEvents {
 	 * @TODO global events (test)
 	 * @TODO support more than event in $type (space-separated)
 	 */
-	public static function trigger($document, $type, $data = array(), $node = null) {
+	public static function trigger($document, $type, $data = array(), $node = null)
+	{
 		// trigger: function(type, data, elem, donative, extra) {
 		$documentID = phpQuery::getDocumentID($document);
 		$namespace = null;
-		if (strpos($type, '.') !== false)
+		if (strpos($type, '.') !== false) {
 			list($name, $namespace) = explode('.', $type);
-		else
+		} else {
 			$name = $type;
-		if (! $node) {
+		}
+		if (!$node) {
 			if (self::issetGlobal($documentID, $type)) {
 				$pq = phpQuery::getDocument($documentID);
 				// TODO check add($pq->document)
@@ -47,24 +51,27 @@ abstract class phpQueryEvents {
 				));
 			}
 			$i = 0;
-			while($node) {
+			while ($node) {
 				// TODO whois
-				phpQuery::debug("Triggering ".($i?"bubbled ":'')."event '{$type}' on "
-					."node \n");//.phpQueryObject::whois($node)."\n");
+				phpQuery::debug("Triggering " . ($i ? "bubbled " : '') . "event '{$type}' on "
+					. "node \n");//.phpQueryObject::whois($node)."\n");
 				$event->currentTarget = $node;
 				$eventNode = self::getNode($documentID, $node);
 				if (isset($eventNode->eventHandlers)) {
-					foreach($eventNode->eventHandlers as $eventType => $handlers) {
+					foreach ($eventNode->eventHandlers as $eventType => $handlers) {
 						$eventNamespace = null;
-						if (strpos($type, '.') !== false)
+						if (strpos($type, '.') !== false) {
 							list($eventName, $eventNamespace) = explode('.', $eventType);
-						else
+						} else {
 							$eventName = $eventType;
-						if ($name != $eventName)
+						}
+						if ($name != $eventName) {
 							continue;
-						if ($namespace && $eventNamespace && $namespace != $eventNamespace)
+						}
+						if ($namespace && $eventNamespace && $namespace != $eventNamespace) {
 							continue;
-						foreach($handlers as $handler) {
+						}
+						foreach ($handlers as $handler) {
 							phpQuery::debug("Calling event handler\n");
 							$event->data = $handler['data']
 								? $handler['data']
@@ -78,13 +85,15 @@ abstract class phpQueryEvents {
 					}
 				}
 				// to bubble or not to bubble...
-				if (! $event->bubbles)
+				if (!$event->bubbles) {
 					break;
+				}
 				$node = $node->parentNode;
 				$i++;
 			}
 		}
 	}
+
 	/**
 	 * Binds a handler to one or more events (like click) for each matched element.
 	 * Can also bind custom events.
@@ -98,7 +107,8 @@ abstract class phpQueryEvents {
 	 * @TODO support more than event in $type (space-separated)
 	 * @TODO support binding to global events
 	 */
-	public static function add($document, $node, $type, $data, $callback = null) {
+	public static function add($document, $node, $type, $data, $callback = null)
+	{
 		phpQuery::debug("Binding '$type' event");
 		$documentID = phpQuery::getDocumentID($document);
 //		if (is_null($callback) && is_callable($data)) {
@@ -106,15 +116,18 @@ abstract class phpQueryEvents {
 //			$data = null;
 //		}
 		$eventNode = self::getNode($documentID, $node);
-		if (! $eventNode)
+		if (!$eventNode) {
 			$eventNode = self::setNode($documentID, $node);
-		if (!isset($eventNode->eventHandlers[$type]))
+		}
+		if (!isset($eventNode->eventHandlers[$type])) {
 			$eventNode->eventHandlers[$type] = array();
+		}
 		$eventNode->eventHandlers[$type][] = array(
 			'callback' => $callback,
 			'data' => $data,
 		);
 	}
+
 	/**
 	 * Enter description here...
 	 *
@@ -125,32 +138,40 @@ abstract class phpQueryEvents {
 	 * @TODO namespace events
 	 * @TODO support more than event in $type (space-separated)
 	 */
-	public static function remove($document, $node, $type = null, $callback = null) {
+	public static function remove($document, $node, $type = null, $callback = null)
+	{
 		$documentID = phpQuery::getDocumentID($document);
 		$eventNode = self::getNode($documentID, $node);
 		if (is_object($eventNode) && isset($eventNode->eventHandlers[$type])) {
 			if ($callback) {
-				foreach($eventNode->eventHandlers[$type] as $k => $handler)
-					if ($handler['callback'] == $callback)
+				foreach ($eventNode->eventHandlers[$type] as $k => $handler) {
+					if ($handler['callback'] == $callback) {
 						unset($eventNode->eventHandlers[$type][$k]);
+					}
+				}
 			} else {
 				unset($eventNode->eventHandlers[$type]);
 			}
 		}
 	}
-	protected static function getNode($documentID, $node) {
-		foreach(phpQuery::$documents[$documentID]->eventsNodes as $eventNode) {
-			if ($node->isSameNode($eventNode))
+
+	protected static function getNode($documentID, $node)
+	{
+		foreach (phpQuery::$documents[$documentID]->eventsNodes as $eventNode) {
+			if ($node->isSameNode($eventNode)) {
 				return $eventNode;
+			}
 		}
 	}
-	protected static function setNode($documentID, $node) {
+
+	protected static function setNode($documentID, $node)
+	{
 		phpQuery::$documents[$documentID]->eventsNodes[] = $node;
-		return phpQuery::$documents[$documentID]->eventsNodes[
-			count(phpQuery::$documents[$documentID]->eventsNodes)-1
-		];
+		return phpQuery::$documents[$documentID]->eventsNodes[count(phpQuery::$documents[$documentID]->eventsNodes) - 1];
 	}
-	protected static function issetGlobal($documentID, $type) {
+
+	protected static function issetGlobal($documentID, $type)
+	{
 		return isset(phpQuery::$documents[$documentID])
 			? in_array($type, phpQuery::$documents[$documentID]->eventsGlobal)
 			: false;

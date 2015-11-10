@@ -274,13 +274,13 @@ $tests = array(
 );
 
 phpQuery::newDocumentFile('test.html');
-foreach( $tests as $k => $test ) {
-	$tests[ $k ][2] = pq( $test[0] )->whois();
+foreach ($tests as $k => $test) {
+	$tests[$k][2] = pq($test[0])->whois();
 }
-foreach( $tests as $test ) {
-	if ( $test[1] == $test[2] )
+foreach ($tests as $test) {
+	if ($test[1] == $test[2]) {
 		print "Test '{$test[0]}' PASSED :)";
-	else {
+	} else {
 		print "Test '{$test[0]}' <strong>FAILED</strong> !!!";
 		print_r($test[2]);
 	}
@@ -293,10 +293,11 @@ phpQuery::newDocumentFile('test.html');
 pq('<select name="test[]"><option value=3>test</option></select>')
 	->appendTo('body');
 $result = pq('select[name="test[]"]:has(option[value=3])');
-if ( $result->size() == 1 )
+if ($result->size() == 1) {
 	print "Test '{$testName}' PASSED :)";
-else
+} else {
 	print "Test '{$testName}' <strong>FAILED</strong> !!! ";
+}
 $result->dump();
 print "\n";
 ?>

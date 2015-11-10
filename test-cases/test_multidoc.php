@@ -9,12 +9,13 @@ $testResult = array(
 $doc1 = phpQuery::newDocumentFile('test.html');
 $doc2 = phpQuery::newDocumentFile('test.html');
 
-foreach ($doc1->find('p') as $node)
-   $doc2->find('body')->append(pq($node));
+foreach ($doc1->find('p') as $node) {
+	$doc2->find('body')->append(pq($node));
+}
 $testResult = $doc2->find('p');
-if ( $testResult->size() == 2*$doc1->find('p')->size() )
+if ($testResult->size() == 2 * $doc1->find('p')->size()) {
 	print "Test '{$testName}' PASSED :)";
-else {
+} else {
 	print "Test '{$testName}' <strong>FAILED</strong> !!!<br />";
 	$testResult->whois();
 }
@@ -25,12 +26,13 @@ $testResult = array(
 );
 $doc1 = phpQuery::newDocumentFile('test.html');
 $doc2 = phpQuery::newDocumentFile('test.html');
-foreach ($doc1->find('p') as $node)
-   $doc2->find('body')->append($node);
+foreach ($doc1->find('p') as $node) {
+	$doc2->find('body')->append($node);
+}
 $testResult = $doc2->find('p');
-if ( $testResult->size() == 2*$doc1->find('p')->size() )
+if ($testResult->size() == 2 * $doc1->find('p')->size()) {
 	print "Test '{$testName}' PASSED :)";
-else {
+} else {
 	print "Test '{$testName}' <strong>FAILED</strong> !!!<br />";
 	$testResult->whois();
 }

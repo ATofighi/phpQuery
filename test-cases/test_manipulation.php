@@ -32,15 +32,15 @@ EOF;
 $rows = array(
 	array(
 		'title' => 'News 1 title',
-		'body'	=> 'News 1 body',
+		'body' => 'News 1 body',
 	),
 	array(
 		'title' => 'News 2 title',
-		'body'	=> 'News 2 body',
+		'body' => 'News 2 body',
 	),
 	array(
 		'title' => 'News 3',
-		'body'	=> 'News 3 body',
+		'body' => 'News 3 body',
 	),
 );
 phpQuery::newDocumentFile('test.html');
@@ -48,9 +48,9 @@ $articles = pq('.articles ul');
 $rowSrc = $articles->find('li')
 	->remove()
 	->eq(0);
-foreach( $rows as $r ) {
+foreach ($rows as $r) {
 	$row = $rowSrc->_clone();
-	foreach( $r as $field => $value ) {
+	foreach ($r as $field => $value) {
 		$row->find(".{$field}")
 			->html($value);
 //		die($row->htmlOuter());
@@ -61,10 +61,11 @@ $result = pq('.articles')->htmlOuter();
 //print htmlspecialchars("<pre>{$result}</pre>").'<br />';
 $similarity = 0.0;
 similar_text($testResult, $result, $similarity);
-if ($similarity > 90)
+if ($similarity > 90) {
 	print "Test '{$testName}' passed :)";
-else
+} else {
 	print "Test '{$testName}' <strong>FAILED</strong> ($similarity) !!!";
+}
 print "\n";
 
 
@@ -75,10 +76,10 @@ $children = $parent->find('li:first');
 $e = null;
 try {
 	$children->before('<li>test</li>');
-} catch(Exception $e) {
+} catch (Exception $e) {
 	print "Test '{$testName}' <strong>FAILED</strong> !!! ";
 }
-if (! $e) {
+if (!$e) {
 	print "Test '{$testName}' PASSED :)";
 }
 print "\n";
@@ -88,9 +89,9 @@ $testName = 'HTML insertion';
 $doc = phpQuery::newDocument('<div><p/></div>');
 $string = "La Thermo-sonde de cuisson vous permet de cuire à la perfection au four comme au bain-marie. Température: entre <b>0°C et 210°C</b>.";
 $doc->find('p')->html($string);
-if (pq('p')->length == 1)
+if (pq('p')->length == 1) {
 	print "Test '{$testName}' PASSED :)";
-else {
+} else {
 	print "Test '{$testName}' <strong>FAILED</strong> !!! ";
 	print $doc->htmlOuter('htmlentities');
 }
@@ -127,15 +128,13 @@ if (pq('img')->length == 1) {
 print "\n";
 
 
-
-
 $testName = 'Text insertion';
 $doc = phpQuery::newDocument('<div><p/></div>');
 $string = "La Thermo-sonde de cuisson vous permet de cuire à la perfection au four comme au bain-marie";
 $doc->find('p')->html($string);
-if (trim(pq('p:first')->html()) == $string)
+if (trim(pq('p:first')->html()) == $string) {
 	print "Test '{$testName}' PASSED :)";
-else {
+} else {
 	print "Test '{$testName}' <strong>FAILED</strong> !!! ";
 	print $doc->htmlOuter('htmlentities');
 }

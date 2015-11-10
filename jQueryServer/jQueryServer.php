@@ -1,4 +1,5 @@
 `<?php
+
 /**
  * jQuery Server Plugin
  *
@@ -14,7 +15,8 @@
  * @todo 2.0: JSON RPC - Zend_Json_Server
  * @todo 2.0: XML RPC ?
  */
-class jQueryServer {
+class jQueryServer
+{
 	public $config = array(
 		'allowedRefererHosts' => array('.'),
 		'refererMustMatch' => true,
@@ -22,22 +24,27 @@ class jQueryServer {
 	public $calls = null;
 	public $options = null;
 	public $allowedHosts = null;
-	function __construct($data) {
+
+	function __construct($data)
+	{
 		$pq = null;
-		include_once(dirname(__FILE__).'/../phpQuery/phpQuery.php');
-		if (file_exists(dirname(__FILE__).'/jQueryServer.config.php')) {
-			include_once(dirname(__FILE__).'/jQueryServer.config.php');
-			if ($jQueryServerConfig)
+		include_once(dirname(__FILE__) . '/../phpQuery/phpQuery.php');
+		if (file_exists(dirname(__FILE__) . '/jQueryServer.config.php')) {
+			include_once(dirname(__FILE__) . '/jQueryServer.config.php');
+			if ($jQueryServerConfig) {
 				$this->config = array_merge_recursive($this->config, $jQueryServerConfig);
+			}
 		}
 		if ($this->config['refererMustMatch']) {
-			foreach($this->config['allowedRefererHosts'] as $i => $host)
-				if ($host == '.')
+			foreach ($this->config['allowedRefererHosts'] as $i => $host) {
+				if ($host == '.') {
 					$this->config['allowedRefererHosts'][$i] = $_SERVER['HTTP_HOST'];
+				}
+			}
 			$referer = parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST);
 			$authorized = $referer
 				&& in_array($referer, $this->config['allowedRefererHosts']);
-			if (! $authorized) {
+			if (!$authorized) {
 				throw new Exception("Host '{$_SERVER['HTTP_REFERER']}' not authorized to make requests.");
 				return;
 			}
@@ -60,13 +67,15 @@ class jQueryServer {
 			throw new Exception("URL needed to download content");
 		}
 	}
-	public function success($response) {
+
+	public function success($response)
+	{
 		$pq = phpQuery::newDocument($response);
-		foreach($this->calls as $k => $r) {
+		foreach ($this->calls as $k => $r) {
 			// check if method exists
-			if (! method_exists(get_class($pq), $r['method'])) {
+			if (!method_exists(get_class($pq), $r['method'])) {
 				throw new Exception("Method '{$r['method']}' not implemented in phpQuery, sorry...");
-			// execute method
+				// execute method
 			} else {
 				$pq = call_user_func_array(
 					array($pq, $r['method']),
@@ -74,19 +83,21 @@ class jQueryServer {
 				);
 			}
 		}
-		if (! isset($this->options['dataType']))
+		if (!isset($this->options['dataType'])) {
 			$this->options['dataType'] = '';
-		switch(strtolower($this->options['dataType'])) {
+		}
+		switch (strtolower($this->options['dataType'])) {
 			case 'json':
-				if ( $pq instanceof PHPQUERYOBJECT ) {
+				if ($pq instanceof PHPQUERYOBJECT) {
 					$results = array();
-					foreach($pq as $node)
+					foreach ($pq as $node) {
 						$results[] = pq($node)->htmlOuter();
+					}
 					print phpQuery::toJSON($results);
 				} else {
 					print phpQuery::toJSON($pq);
 				}
-			break;
+				break;
 			default:
 				print $pq;
 		}
@@ -103,5 +114,6 @@ class jQueryServer {
 //			: $this->json->decode($data);
 //	}
 }
+
 new jQueryServer($_POST['data']);
 ?>

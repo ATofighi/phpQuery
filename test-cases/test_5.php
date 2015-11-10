@@ -3,17 +3,24 @@ require_once('../phpQuery/phpQuery.php');
 phpQuery::$debug = true;
 
 // CALLBACKS
-class callbackClass {
-	static function staticMethodCallback($node) {
+class callbackClass
+{
+	static function staticMethodCallback($node)
+	{
 		pq($node)->addClass('newClass');
 	}
-	function methodCallback($node) {
+
+	function methodCallback($node)
+	{
 		pq($node)->addClass('newClass');
 	}
 }
-function functionCallback($node) {
+
+function functionCallback($node)
+{
 	pq($node)->addClass('newClass');
 }
+
 $testResult = array(
 	'li.newClass',
 	'li#testID.newClass',
@@ -27,16 +34,16 @@ $tests = array(
 	array('callbackClass', 'staticMethodCallback'),
 	array(new callbackClass, 'methodCallback')
 );
-foreach($tests as $test) {
+foreach ($tests as $test) {
 	$result = phpQuery::newDocumentFile('test.html')
 		->find('li')
-			->each($test);
+		->each($test);
 	$testName = is_array($test)
 		? $test[1]
 		: $test;
-	if ( $result->whois() == $testResult )
+	if ($result->whois() == $testResult) {
 		print "Test '$testName' PASSED :)";
-	else {
+	} else {
 		print "Test '$testName' <strong>FAILED</strong> !!! ";
 		print "<pre>";
 		print_r($result->whois());
