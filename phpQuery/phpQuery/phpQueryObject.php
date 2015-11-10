@@ -1588,35 +1588,65 @@ class phpQueryObject
 	}
 
 	/**
-	 * Enter description here...
+	 * Get the value of a computed style property for the first element in the set of matched elements or set one or more CSS properties for every matched element.
 	 *
-	 * @return phpQuery|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 * @todo
+	 * @param $attr string|array
+	 * @param $value string
+	 * @return phpQuery|QueryTemplatesParse|QueryTemplatesSource|QueryTemplatesSourceQuery
 	 */
-	public function css()
+	public function css($attr, $value = null)
 	{
-		// TODO
+		if (is_array($attr)) {
+			$attributes = $attr;
+			foreach ($attributes as $attr => $value) {
+				$this->css((string)$attr, $value);
+			}
+		} else {
+			$styles = explode(';', $this->attr('style'));
+			$stylesMap = array();
+			foreach ($styles as $style) {
+				if (!$style) {
+					continue;
+				}
+				list($styleName, $styleValue) = explode(':', $style, 2);
+				$styleName = ltrim(rtrim(trim($styleName)));
+				$styleValue = ltrim(rtrim(trim($styleValue)));
+				$stylesMap[$styleName] = $styleValue;
+			}
+			if (is_null($value)) {
+				if (isset($stylesMap[$attr])) {
+					return $stylesMap[$attr];
+				} else {
+					return null;
+				}
+			} else {
+				$stylesMap[$attr] = $value;
+				$newStyles = '';
+				foreach ($stylesMap as $prop => $val) {
+					$newStyles .= $prop.': '.$val.';';
+				}
+				$this->attr('style', $newStyles);
+			}
+		}
 		return $this;
 	}
 
 	/**
-	 * @todo
+	 * make the element visible
 	 *
 	 */
 	public function show()
 	{
-		// TODO
-		return $this;
+		return $this->css('display', '');
 	}
 
 	/**
-	 * @todo
+	 * make the element hidden
 	 *
 	 */
 	public function hide()
 	{
-		// TODO
-		return $this;
+		return $this->css('display', 'none');
 	}
 
 	/**
@@ -2192,9 +2222,12 @@ class phpQueryObject
 		return call_user_func_array(array($this, 'htmlOuter'), $args);
 	}
 
+	/**
+	 * @return string
+	 */
 	public function __toString()
 	{
-		return $this->markupOuter();
+		return (string)$this->markupOuter();
 	}
 
 	/**
