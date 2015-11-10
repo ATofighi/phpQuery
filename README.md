@@ -1,29 +1,6 @@
-## see https://github.com/electrolinux/phpquery
-## I just needed upper version for formal stability requirements (bariew).
+# phpQuery
 
-## phpQuery, one more fork!
-
-My intent is to have it easily integrated in differents projects, so available on packagist.
-I've gathered some fix and new features here and there, as will keep looking for new stuff on github about phpQuery
-
-### github repos i've integrated:
-
-* https://github.com/ralph-tice/phpquery (one commit: added WebBrowser->browserDownload)
-* https://github.com/aptivate/phpquery (three commits)
-* https://github.com/panrafal/phpquery (remove zend)
-
-### github repos i've looked at:
-
-* https://github.com/denis-isaev/phpquery
-* https://github.com/fmorrow/pQuery--PHPQuery- (big project so far)
-* https://github.com/r-sal/phpquery
-* https://github.com/damien-list/phpquery-1
-* https://github.com/nev3rm0re/phpquery
-* https://github.com/Aurielle/phpquery
-* https://github.com/kevee/phpquery (include php-css-parser)
-* https://github.com/lucassouza1/phpquery
-
-## Extracts from fmorrow README.md:
+from: [https://github.com/bariew/phpquery](https://github.com/bariew/phpquery)
 
 ### Whats phpQuery?
 To quote the phpQuery *(orignally concieved and developed by Tobiasz Cudnik, available on Google Code and Github)* project documentation:
@@ -62,7 +39,7 @@ echo '<p>' . htmlentities( $title) . '</p>';
 ?>
 ```
 
-====
+-------
 
 Source for test.html:
 
