@@ -3,7 +3,7 @@
 	"type": "library",
 	"description": "phpQuery is a server-side, chainable, CSS3 selector driven Document Object Model (DOM) API based on jQuery JavaScript Library",
 	"keywords": [],
-	"homepage": "http://code.google.com/p/phpquery/",
+	"homepage": "https://github.com/ATofighi/phpQuery/",
 	"license": "MIT",
 	"authors": [
 		{
